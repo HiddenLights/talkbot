@@ -340,7 +340,7 @@ async def init():
             else:
                 return await message.reply_to_message.copy(chat_id)
         else:
-            await bot.send_message(chat_id, text=message.text.split(None, 1)[1])
+            await app.send_message(chat_id, text=message.text.split(None, 1)[1])
 
     print("[LOG] - VerificareBot Started")
     await idle()
