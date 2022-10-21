@@ -338,24 +338,24 @@ async def init():
 #     else:
 #         return None
 
-    @app.on_message(
-        filters.command("esc"))
-    async def send(_, message):
-        await message.delete()
-        chat_id = message.chat.id
-        if not message.reply_to_message and len(message.command) < 2:
-            return await message.reply_text("Offff")
-        if message.reply_to_message:
-            if len(message.command) > 1:
-                send = message.text.split(None, 1)[1]
-                reply_id = message.reply_to_message.message_id
-                return await app.send_message(chat_id,
-                                              text=send,
-                                              reply_to_message_id=reply_id)
-            else:
-                return await message.reply_to_message.copy(chat_id)
-        else:
-            await app.send_message(chat_id, text=message.text.split(None, 1)[1])
+    # @app.on_message(
+    #     filters.command("esc" & filters.group & ~filters.edited))
+    # async def send(_, message):
+    #     await message.delete()
+    #     chat_id = message.chat.id
+    #     if not message.reply_to_message and len(message.command) < 2:
+    #         return await message.reply_text("Offff")
+    #     if message.reply_to_message:
+    #         if len(message.command) > 1:
+    #             send = message.text.split(None, 1)[1]
+    #             reply_id = message.reply_to_message.message_id
+    #             return await app.send_message(chat_id,
+    #                                           text=send,
+    #                                           reply_to_message_id=reply_id)
+    #         else:
+    #             return await message.reply_to_message.copy(chat_id)
+    #     else:
+    #         await app.send_message(chat_id, text=message.text.split(None, 1)[1])
 
         print("[LOG] - Talk Esco Bot Started")
         await idle()
