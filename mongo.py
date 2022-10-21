@@ -16,7 +16,7 @@ db = None
 
 if MONGO_DB_URI != None:
     mongo = MongoClient(MONGO_DB_URI)
-    db = mongo.TalksBot
+    db = mongo.ChatBot
 
     usersdb = db.users
     blockeddb = db.block
