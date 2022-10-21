@@ -16,8 +16,6 @@ from pyrogram import __version__ as pyrover
 from pyrogram import filters, idle, StopPropagation
 from pyrogram.errors import FloodWait
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-import functools
-from typing import Callable, Coroutine, Dict, List, Tuple, Union
 
 import config
 import mongo
@@ -46,18 +44,18 @@ async def init():
             return
         await mongo.add_served_user(message.from_user.id)
         await message.reply_photo(
-            photo="https://telegra.ph/file/d61dc463c5d58be062ba6.jpg",
-            caption="<b>👋Salut!\n\nAi fost trimis(ă) la verificări, deoarece încercăm să eliminăm conturile false din comunitatea noastră.\nTe rugăm să trimiți un mesaj vocal sau de preferat un video în care să spui: 'Salut, sunt femeie/bărbat și am X ani.\n\nAi 30 minute să trimiți mesajul vocal, altfel accesul îți va fi restricționat pe toată suita de grupuri @intalniri!\nMulțumim!</b>",
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            "💬Contact", url="https://t.me/hubcontactbot")
-                    ]
-                ]
+                    photo="https://telegra.ph/file/d61dc463c5d58be062ba6.jpg", 
+                    caption="<b>👋Salut!\n\nAi fost trimis(ă) la verificări, deoarece încercăm să eliminăm conturile false din comunitatea noastră.\nTe rugăm să trimiți un mesaj vocal sau de preferat un video în care să spui: 'Salut, sunt femeie/bărbat și am X ani.\n\nAi 30 minute să trimiți mesajul vocal, altfel accesul îți va fi restricționat pe toată suita de grupuri @intalniri!\nMulțumim!</b>", 
+                    reply_markup=InlineKeyboardMarkup(
+                                                      [
+                                                       [
+                                                        InlineKeyboardButton("💬Contact", url="https://t.me/hubcontactbot")                                    
+                                                       ]
+                                                      ] 
 
-            )
-        )
+                                                     )
+)
+
 
     @app.on_message(
         filters.command("mode") & filters.user(SUDO_USERS)
@@ -132,12 +130,15 @@ async def init():
                 "MONGO_DB_URI var not defined. Please define it first"
             )
 
+
+
         if message.reply_to_message:
 
             # if not message.reply_to_message.forward_sender_name:
             #     return await message.reply_text(
             #         "Please reply to forwarded messages only."
             #     )
+
 
             replied_id = message.reply_to_message_id
             try:
@@ -272,12 +273,13 @@ async def init():
                     forwarded = await app.forward_messages(
                         config.LOG_GROUP_ID,
                         message.chat.id,
-                        message.message_id,
+                        message.message_id,   
                         # message.user_id,
-                    )
+                        )
+                    
 
                     save[forwarded.message_id] = user_id
-                    await app.sendMessage(chat_id=config.LOG_GROUP_ID, text=f"#id{user_id}")
+                    await app.sendMessage(chat_id = config.LOG_GROUP_ID, text =  f"#id{user_id}")
                 except:
                     pass
             else:
@@ -306,7 +308,7 @@ async def init():
             # if not message.reply_to_message.forward_sender_name:
             #     return await message.reply_text(
             #         "Vă rugăm să răspundeți numai la mesajele redirecționate."
-            # )
+                # )
             try:
                 replied_user_id = save[replied_id]
             except Exception as e:
@@ -326,39 +328,8 @@ async def init():
                     "Trimiterea mesajului nu a reușit, este posibil ca utilizatorul să fi blocat botul sau s-a întâmplat ceva greșit. Vă rugăm să verificați jurnalele"
                 )
 
-# def get_text(message: Message) -> [None, str]:
-#     text_to_return = message.text
-#     if message.text is None:
-#         return None
-#     if " " in text_to_return:
-#         try:
-#             return message.text.split(None, 1)[1]
-#         except IndexError:
-#             return None
-#     else:
-#         return None
-
-    # @app.on_message(
-    #     filters.command("esc" & filters.group & ~filters.edited))
-    # async def send(_, message):
-    #     await message.delete()
-    #     chat_id = message.chat.id
-    #     if not message.reply_to_message and len(message.command) < 2:
-    #         return await message.reply_text("Offff")
-    #     if message.reply_to_message:
-    #         if len(message.command) > 1:
-    #             send = message.text.split(None, 1)[1]
-    #             reply_id = message.reply_to_message.message_id
-    #             return await app.send_message(chat_id,
-    #                                           text=send,
-    #                                           reply_to_message_id=reply_id)
-    #         else:
-    #             return await message.reply_to_message.copy(chat_id)
-    #     else:
-    #         await app.send_message(chat_id, text=message.text.split(None, 1)[1])
-
-        print("[LOG] - Talk Esco Bot Started")
-        await idle()
+    print("[LOG] - VerificareBot Started")
+    await idle()
 
 
 if __name__ == "__main__":
